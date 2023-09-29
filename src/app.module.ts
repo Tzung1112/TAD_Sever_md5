@@ -26,7 +26,7 @@ import { ProductpictureModule } from './modules/productpicture/productpicture.mo
       entities: ["dist/**/*.entity{.ts,.js}"],
       synchronize: true,
     },
-    ),
+    ), 
     ConfigModule.forRoot(),
     UserModule, 
     CategoriesModule,

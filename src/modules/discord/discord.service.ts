@@ -8,11 +8,11 @@ import { Socket, io } from "socket.io-client";
 export class DiscordService implements OnModuleInit{
   
     client: Client<boolean>
-    anphuocShop:string="MTE1Mzk5MDEwNzE1ODgyMjkxMw.GzhwFt.GmzQtOFLIAOcQSEEA8ezJQeEzW45vD5GpmP3tQ"
-    guildId:string="1153990960057954304"
+    anphuocShop:string="MTE1Mzk5MDEwNzE1ODgyMjkxMw.GxCz7g.HdNu5Ee3DbGz5gFWaCg50GBVMNQoiYpgaRP58Y"
+    guildId:string="1153990107158822913"
     guild:Guild
 
-    socketServer: Socket | null = null;
+    socketServer: Socket | null = null; 
     constructor() { }
 
 
@@ -42,6 +42,7 @@ export class DiscordService implements OnModuleInit{
             })
         })
     }
+   
    createGuild(){
          this.guild=this.client.guilds.cache.get(this.guildId);
         

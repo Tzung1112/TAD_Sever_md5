@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -22,13 +22,14 @@ export class ProductService {
       for (let url of pictures) {
         await this.productpicture.save(url)
       }
-      let newProductsPicture = await this.productpicture.create(pictures);
+      let newProductsPicture = this.productpicture.create(pictures);
       let categoryDetail = await this.categorydetail.findOne({ where: { id: id }, relations:{category:true} })
       let newProducts = new Product();
       newProducts.id = pdt.id;
       newProducts.name = pdt.name;
       newProducts.description = pdt.description; 
       newProducts.price = pdt.price;
+      newProducts.avatar=avatar
       newProducts.color = pdt.color;
       newProducts.pictures = newProductsPicture
       newProducts.size = pdt.size;
@@ -55,11 +56,16 @@ export class ProductService {
   }
 
   findAll() {
-    return this.products.find();
+    return this.products.find({relations:{pictures:true, categoryDetail:true}});
   }
 
-  findOne(id: number) {
-    return this.products.findOne({where:{categoryDetailId:id}});
+  async findOne(id: number) {
+    let product= await this.products.findOne({where:{categoryDetailId:id},relations:{pictures:true}})
+    if(!product){
+      throw new NotFoundException('product not found'); 
+
+    }
+    return product;
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {

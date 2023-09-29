@@ -29,7 +29,8 @@ export class Product {
 
     @Column({ type: 'decimal', precision: 10, scale: 2 })
     price: number;
-
+    @Column()
+    avatar:string
     @Column({ type: 'enum', enum: ProductSize, default: ProductSize.SMALL })
     size: ProductSize;
 

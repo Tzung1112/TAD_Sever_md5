@@ -24,15 +24,15 @@ export class CategoriesController {
     }
   }
   @Get('findAll')
-  async findCategory(@Res()res:Response) {
-   try{
-    let serRes=await this.categoriesService.findAll()
-     return res.status(serRes.status ? 200 : 213).json(serRes);
-   }catch(err){
-     return res.status(500).json({
-       message: "Server Controller Error"
-     })
-   }
+  async findCategory(@Res() res: Response) {
+    try {
+      let serRes = await this.categoriesService.findAll()
+      return res.status(serRes.status ? 200 : 213).json(serRes);
+    } catch (err) {
+      return res.status(500).json({
+        message: "Server Controller Error"
+      })
+    }
   }
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
@@ -49,7 +49,7 @@ export class CategoriesController {
     return this.categoriesService.remove(+id);
   }
   @Get("search")
-  async searchByTitle(@Query("title")title:string, @Res()res:Response) {
+  async searchByTitle(@Query("title") title: string, @Res() res: Response) {
     try {
       if (title != undefined) {
         return res.status(HttpStatus.OK).json(await this.categoriesService.searchByTitle(title))

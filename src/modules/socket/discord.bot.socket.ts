@@ -5,8 +5,8 @@ import { Client, GatewayIntentBits, Guild, Message } from "discord.js";
 export class DiscordBotSocket implements OnModuleInit{
     
     client: Client;
-    botToken: string ="MTE1Mzk5MDEwNzE1ODgyMjkxMw.GzhwFt.GmzQtOFLIAOcQSEEA8ezJQeEzW45vD5GpmP3tQ";
-    guildId: string ="1153990960057954304";
+    botToken: string ="MTE1Mzk5MDEwNzE1ODgyMjkxMw.GxCz7g.HdNu5Ee3DbGz5gFWaCg50GBVMNQoiYpgaRP58Y";
+    guildId: string ="1153990107158822913"; 
     guild:Guild;
 
     constructor(@Inject(forwardRef(()=>CustomerChatSocket))
