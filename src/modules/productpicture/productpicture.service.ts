@@ -16,7 +16,7 @@ export class ProductpictureService {
     return `This action returns all productpicture`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} productpicture`;
   }
 

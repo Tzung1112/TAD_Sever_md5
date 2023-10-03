@@ -29,10 +29,10 @@ export async function uploadFileToStorage(file: any, folderName: any, bufferData
     let metadata;
     if (!bufferData) {
         // tên file trên file base
-        fileRef = ref(storage, `${folderName}/` + file.name);
+        fileRef = ref(storage, `${folderName}/` + file.originalname);
     } else {
         // tên file trên file base
-        fileRef = ref(storage, `${folderName}/` + (file as any).filename);
+        fileRef = ref(storage, `${folderName}/` + (file as any).originalname);
         metadata = {
             contentType: (file as any).mimetype,
         };
@@ -55,7 +55,8 @@ export async function uploadFileToStorage(file: any, folderName: any, bufferData
                 .catch(er => false)
         })
     }
-
-
+    console.log("result", url);
+    
     return url
+    
 }

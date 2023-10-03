@@ -17,6 +17,8 @@ export class JwtService {
     }
 
     verifyToken(token: string) {
+        console.log("vaotoken");
+        
         let result;
         try {
             jwt.verify(token, String(process.env.JWT_KEY), function (err, decoded) {

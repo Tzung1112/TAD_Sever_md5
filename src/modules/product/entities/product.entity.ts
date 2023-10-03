@@ -1,12 +1,9 @@
 import { Categorydetail } from "src/modules/categorydetail/entities/categorydetail.entity";
+import { ProductOption } from "src/modules/product_options/entities/product_option.entity";
+import { avatar } from "src/modules/productpicture/dto/create-productpicture.dto";
 import { Productpicture } from "src/modules/productpicture/entities/productpicture.entity";
+import { Size } from "src/modules/size/entities/size.entity";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-export enum ProductSize {
-    SMALL = 'Small',
-    MEDIUM = 'Medium',
-    LARGE = 'Large',
-    // Thêm các giá trị kích thước khác tùy ý
-}
 
 export enum ProductColor {
     RED = 'Red',
@@ -21,27 +18,27 @@ export class Product {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @Column({ unique: true,length: 20 })
+    @Column({ unique: true,length: 50 })
     name: string;
 
-    @Column({ length: 20 })
+    @Column({ length: 50 })
     description: string;
 
-    @Column({ type: 'decimal', precision: 10, scale: 2 })
+    @Column({ type: 'decimal', precision: 10, scale: 0 })
     price: number;
     @Column()
-    avatar:string
-    @Column({ type: 'enum', enum: ProductSize, default: ProductSize.SMALL })
-    size: ProductSize;
-
+    avatar:string;
+   
     @Column({ type: 'enum', enum: ProductColor, default: ProductColor.RED })
     color: ProductColor;
-
     @OneToMany(() => Productpicture, (productPicture) => productPicture.product)
     pictures: Productpicture[];
     @Column()
     categoryDetailId:number;
     @ManyToOne(() => Categorydetail, (categoryDetail) => categoryDetail.products)
     categoryDetail: Categorydetail; 
+    @OneToMany(()=>ProductOption, (product_option)=>product_option.product)
+    product_options:ProductOption[]
+
 
 }

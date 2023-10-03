@@ -21,7 +21,7 @@ export class ProductpictureController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.productpictureService.findOne(+id);
+    return this.productpictureService.findOne(id);
   }
 
   @Patch(':id')

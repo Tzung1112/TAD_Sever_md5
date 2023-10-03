@@ -2,7 +2,8 @@ import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGenerated
 import * as bcrypt from "bcrypt"
 import { UserRole, UserStatus } from "../user.enum";
 import { UserAddresses } from "src/modules/user-addresses/entities/user-address.entity";
-import { CustomerChat } from "src/gateway/entities/customer.chat.entity";
+import { CustomerChats } from "src/modules/socket/customers/entities/customer.chat.entity";
+import { Receipt } from "src/modules/receipts/entities/receipt.entity";
 @Entity()
 export class User{
     @PrimaryGeneratedColumn("uuid")
@@ -39,8 +40,10 @@ export class User{
     }
     @OneToMany(()=>UserAddresses, (userAddresses)=>userAddresses.user)
     userAddresses: UserAddresses[]
-    @OneToMany(() => CustomerChat, (customerChat) => customerChat.user)
-    customerChat: CustomerChat[];
-    //@OneToMany(() => CustomerChat, (customerChat) => customerChat.user)
-    //customerChat: CustomerChat[];
+    @OneToMany(() => CustomerChats, (customerChat) => customerChat.user)
+    customerChats: CustomerChats[];
+    @OneToMany(()=>CustomerChats, (customerChat)=>customerChat.admin)
+    adminChats:CustomerChats[]
+    @OneToMany(()=>Receipt, (receipt)=>receipt.user)
+    receipts:Receipt[];
 }
