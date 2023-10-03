@@ -4,7 +4,7 @@ import { Server, Socket } from 'socket.io'
 import { User } from "src/modules/user/entities/user.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { PayMode, Receipt, ReceiptStatus } from "src/modules/receipts/entities/receipt.entity";
-import { Not, Repository } from "typeorm";
+import { DeleteResult, Not, Repository } from "typeorm";
 import { ReceiptDetail } from "src/modules/receipts/entities/receipt-detail.entity";
 import { JwtService } from "src/jwts/jwt.sevice";
 import * as moment from "moment";
@@ -89,7 +89,28 @@ export class UserSocketGateway implements OnModuleInit {
                         }
                     }
                 })
-
+                socket.on("removeFromCart", async (data: { receiptId: string, optionId: string }) => {
+                    const { receiptId, optionId } = data;
+                    // Gọi hàm xóa sản phẩm từ giỏ hàng
+                    const updatedCart = await this.removeFromCart(receiptId, optionId);
+                
+                    if (updatedCart) {
+                        // Gửi thông báo về việc xóa sản phẩm thành công
+                        socket.emit("cartItemRemoved", {
+                            message: "Sản phẩm đã được xóa khỏi giỏ hàng.",
+                            cart: updatedCart,
+                        });
+                
+                        // Gửi thông báo cập nhật giỏ hàng mới cho tất cả các người dùng kết nối
+                        this.server.emit("receiveCart", updatedCart);
+                    } else {
+                        // Gửi thông báo nếu có lỗi xảy ra trong quá trình xóa sản phẩm
+                        socket.emit("cartItemRemoveFailed", {
+                            message: "Xóa sản phẩm khỏi giỏ hàng thất bại.",
+                        });
+                    }
+                });
+                
                 socket.on("payCash" , async (data: {
                     receiptId: string,
                     userId: string
@@ -247,7 +268,44 @@ export class UserSocketGateway implements OnModuleInit {
             return false
         }
     }
-
+    //delete
+    async removeFromCart(receiptId: string, optionId: string): Promise<Receipt | null> {
+        try {
+            // Kiểm tra xem sản phẩm có tồn tại trong giỏ hàng không
+            const itemToRemove = await this.receiptDetail.findOne({
+                where: {
+                    receiptId: receiptId,
+                    optionId: optionId,
+                },
+            });
+    
+            if (!itemToRemove) {
+                return null; // Sản phẩm không tồn tại trong giỏ hàng
+            }
+    
+            // Xóa sản phẩm khỏi giỏ hàng
+            await this.receiptDetail.remove(itemToRemove);
+    
+            // Cập nhật lại giỏ hàng và trả về giỏ hàng đã cập nhật
+            const updatedCart = await this.receipts.findOne({
+                where: {
+                    id: receiptId,
+                },
+                relations: {
+                    detail: {
+                        option: {
+                            product: true,
+                        },
+                    },
+                },
+            });
+    
+            return updatedCart || null;
+        } catch (err) {
+            return null; // Xử lý lỗi
+        }
+    }
+    
     async cash(receiptId: string, userId: string, options: {
         payMode: PayMode,
         paid?: boolean,

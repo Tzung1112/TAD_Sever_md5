@@ -63,7 +63,7 @@ export class ProductService {
   }
 
   findAll() {
-    return this.products.find({relations:{pictures:true, categoryDetail:true,product_options: {
+    return this.products.find({relations:{pictures:true, categoryDetail:{category:true},product_options: {
      size: true
     }}});
   }
