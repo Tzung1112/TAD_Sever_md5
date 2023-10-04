@@ -15,10 +15,10 @@ export enum ProductColor {
 @Entity()
 export class Product {
  
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-    @Column({ unique: true,length: 50 })
+    @Column({ unique: true,length: 100 })
     name: string;
 
     @Column({ length: 50 })

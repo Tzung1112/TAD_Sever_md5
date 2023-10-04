@@ -7,7 +7,7 @@ export class CustomerChats{
     id:number
 
     @Column()
-    userId:string
+    userId:number
 
     @ManyToOne(()=>User, (user)=>user.customerChats)
     @JoinColumn({name:"userId"})
@@ -19,7 +19,7 @@ export class CustomerChats{
     adminId:string|null;
 
     @ManyToOne(()=>User, (user)=>user.adminChats)
-    @JoinColumn({name:"adminId"})
+    @JoinColumn({name:"adminId"}) 
     admin:User;
 
     @Column()

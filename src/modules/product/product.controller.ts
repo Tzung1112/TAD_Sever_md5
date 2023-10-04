@@ -53,7 +53,7 @@ export class ProductController {
   }
 
   @Get(':id')
-  find(@Param('id') id: string) {
+  find(@Param('id') id: number) {
     return this.productService.findOne(id);
   }
 

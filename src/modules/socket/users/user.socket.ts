@@ -79,7 +79,7 @@ export class UserSocketGateway implements OnModuleInit {
                     socket.emit("receiveCart", cart)
                 }
 
-                socket.on("addToCart", async (newItem: {receiptId: string, optionId: string, quantity: number}) => {
+                socket.on("addToCart", async (newItem: {receiptId: number, optionId: number, quantity: number}) => {
                     let cart = await this.addToCart(newItem)
                     if(cart) {
                         for (let i in this.clients) {
@@ -89,7 +89,7 @@ export class UserSocketGateway implements OnModuleInit {
                         }
                     }
                 })
-                socket.on("removeFromCart", async (data: { receiptId: string, optionId: string }) => {
+                socket.on("removeFromCart", async (data: { receiptId: number, optionId: number }) => {
                     const { receiptId, optionId } = data;
                     // Gọi hàm xóa sản phẩm từ giỏ hàng
                     const updatedCart = await this.removeFromCart(receiptId, optionId);
@@ -112,8 +112,8 @@ export class UserSocketGateway implements OnModuleInit {
                 });
                 
                 socket.on("payCash" , async (data: {
-                    receiptId: string,
-                    userId: string
+                    receiptId: number,
+                    userId: number
                 }) => {
                     console.log("data", data)
                     let cashInfor = await this.cash(data.receiptId, data.userId)
@@ -127,7 +127,7 @@ export class UserSocketGateway implements OnModuleInit {
                     }
                 })
                 socket.on("payZalo" , async (data: {
-                    receiptId: string
+                    receiptId: number
                 }) => {
                     let zaloCash = await this.zaloCash(data.receiptId, user, socket);
                     if(zaloCash) {
@@ -145,8 +145,8 @@ export class UserSocketGateway implements OnModuleInit {
     }
 
     async findReceiptByAuthId(data: {
-        userId: string | null,
-        guestId: string | null
+        userId: number | null,
+        guestId: number | null
     }) {
         try {
             if (data.userId == null && data.guestId == null) return false
@@ -178,7 +178,7 @@ export class UserSocketGateway implements OnModuleInit {
         }
     }
 
-    async getCartByUserId(userId: string) {
+    async getCartByUserId(userId: number) {
         try {
             let oldCart = await this.receipts.find({
                 where: {
@@ -226,7 +226,7 @@ export class UserSocketGateway implements OnModuleInit {
         }
     }
 
-    async addToCart(newItem: {receiptId: string, optionId: string, quantity: number}) {
+    async addToCart(newItem: {receiptId: number, optionId: number, quantity: number}) {
         try {
             let items = await this.receiptDetail.find({
                 where: {
@@ -269,7 +269,7 @@ export class UserSocketGateway implements OnModuleInit {
         }
     }
     //delete
-    async removeFromCart(receiptId: string, optionId: string): Promise<Receipt | null> {
+    async removeFromCart(receiptId: number, optionId: number): Promise<Receipt | null> {
         try {
             // Kiểm tra xem sản phẩm có tồn tại trong giỏ hàng không
             const itemToRemove = await this.receiptDetail.findOne({
@@ -306,7 +306,7 @@ export class UserSocketGateway implements OnModuleInit {
         }
     }
     
-    async cash(receiptId: string, userId: string, options: {
+    async cash(receiptId: number, userId: number, options: {
         payMode: PayMode,
         paid?: boolean,
         paidAt?: string,
@@ -363,7 +363,7 @@ export class UserSocketGateway implements OnModuleInit {
         }
     }
     
-    async zaloCash(receiptId: string, user: User, socket: Socket) {
+    async zaloCash(receiptId: number, user: User, socket: Socket) {
         let finish:boolean = false;
         let result: [Receipt, Receipt[]] | null = null;
         /* Bước 1: Lấy dữ liệu dơn hàng và đăng ký giao dịch trên Zalo*/

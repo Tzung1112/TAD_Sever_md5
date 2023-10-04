@@ -40,7 +40,7 @@ export class UserController {
   }
 
   @Get('email-authentication/:userId/:token')
- async emailAuthentication(@Param("userId")userId : string, @Param("token")token : string, @Res() res : Response ){
+ async emailAuthentication(@Param("userId")userId : number, @Param("token")token : string, @Res() res : Response ){
   try{
     let userDecode=this.jwt.verifyToken(token);
     let serResUser=await this.userService.findById(userId);
@@ -105,17 +105,17 @@ export class UserController {
  }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.userService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.userService.remove(+id);
   }
 }

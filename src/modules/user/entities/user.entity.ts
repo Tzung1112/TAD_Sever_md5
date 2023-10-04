@@ -6,8 +6,8 @@ import { CustomerChats } from "src/modules/socket/customers/entities/customer.ch
 import { Receipt } from "src/modules/receipts/entities/receipt.entity";
 @Entity()
 export class User{
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
+    @PrimaryGeneratedColumn()
+    id: number;
     @Column({ default: "https://png.pngtree.com/png-clipart/20210608/ourmid/pngtree-gray-silhouette-avatar-png-image_3418406.jpg" })
     avatar:string;
     @Column({ unique:true, length:150 })

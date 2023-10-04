@@ -1,5 +1,5 @@
 export interface CustomerChat{
-    userId:string;
+    userId:number;
     adminId?:string;
     content:string;
     time:string;

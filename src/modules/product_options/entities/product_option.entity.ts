@@ -7,12 +7,12 @@ import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColum
 export class ProductOption {
  @PrimaryGeneratedColumn()
  id:number;
- @Column({ length: 50})
+ @Column({ length:100})
  name:string;
  @Column({
     nullable:false
  })
- productId:string;
+ productId:number;
  @ManyToOne(()=> Product, (product)=>product.product_options)
  product:Product
  @OneToMany(() => Size, (product_option_size) => product_option_size.product_option)

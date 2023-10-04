@@ -4,17 +4,17 @@ import { ProductOption } from "src/modules/product_options/entities/product_opti
 
 @Entity()
 export class ReceiptDetail{
-    @PrimaryGeneratedColumn("uuid")
-    id:string;
+    @PrimaryGeneratedColumn()
+    id:number;
 
     @Column()
-    receiptId:string;
+    receiptId:number;
     @ManyToOne(()=>Receipt, (receipt)=>receipt.detail) 
     @JoinColumn({name:"receiptId"})
     receipt:Receipt;
 
     @Column()
-    optionId:string;
+    optionId:number;
 
     @ManyToOne(()=>ProductOption, (productOption)=>productOption.sold)
     @JoinColumn({name:"optionId"})

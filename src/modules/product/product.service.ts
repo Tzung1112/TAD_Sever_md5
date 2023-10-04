@@ -79,7 +79,7 @@ export class ProductService {
     }
     return product;
   }
-  async findOne(id: string) {
+  async findOne(id: number) {
     let product= await this.products.find({where:{id:id},relations:{pictures:true,product_options: {
       size:true
     }

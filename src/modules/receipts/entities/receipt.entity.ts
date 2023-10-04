@@ -17,18 +17,18 @@ export enum PayMode {
 }
 @Entity()
 export class Receipt {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+    @PrimaryGeneratedColumn()
+    id: number;
 
     @Column({
         nullable: true
     })
-    userId: string;
+    userId: number;
 
     @Column({
         nullable: true
     })
-    guestId: string;
+    guestId: number;
 
     @ManyToOne(() => User, (user) => user.receipts)
     @JoinColumn({ name: 'userId' })

@@ -27,11 +27,11 @@ export class UserService {
       return {
         status: false,
         data: null,
-        message: "err service"
+        message: "ERR SERVICE"
       }
-    }
+    } 
   }
-  async findById(userId:string):Promise<FindByIdSerRes>{
+  async findById(userId:number):Promise<FindByIdSerRes>{
     try{
       let result= await this.users.findOne({
         where:{
@@ -88,7 +88,7 @@ export class UserService {
     return `This action returns a #${id} user`;
   }
 
-  async update(userId: string, updateUserDto: UpdateUserDto): Promise<UpdateSerRes> {
+  async update(userId: number, updateUserDto: UpdateUserDto): Promise<UpdateSerRes> {
     try{
       let userSource=await this.users.findOne({
         where:{

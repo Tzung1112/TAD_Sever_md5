@@ -4,5 +4,5 @@ export class CreateProductOptionDto {
     @Allow()
     name:string;
     @Allow()
-    productId:string;
+    productId:number;
 }

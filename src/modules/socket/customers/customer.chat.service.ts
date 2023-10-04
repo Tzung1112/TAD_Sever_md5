@@ -5,7 +5,7 @@ import { CustomerChat } from "./customer.chat.interface"
 
 export class CustomerChatService{
     constructor(@InjectRepository(CustomerChats) private readonly customerChats:Repository<CustomerChats>){}
-    async findChatByUserId(userId:string){
+    async findChatByUserId(userId:number){
         try{
             let chats=await this.customerChats.find({
                 where:{

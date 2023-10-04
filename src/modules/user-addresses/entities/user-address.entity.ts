@@ -2,10 +2,10 @@ import { User } from "src/modules/user/entities/user.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 @Entity()
 export class UserAddresses {
-    @PrimaryGeneratedColumn('uuid')
-    id:string;
+    @PrimaryGeneratedColumn()
+    id:number;
     @Column()
-    userId:string;
+    userId:number;
     @ManyToOne(()=>User,(user)=>user.userAddresses)
     @JoinColumn({name:"userId"})
     user:User;
